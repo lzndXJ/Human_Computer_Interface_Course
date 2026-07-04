@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iCampus 大学校园辅助系统原型</title>
+  <style>
+    :root {
+      --green: #1f8a70;
+      --green-dark: #11624f;
+      --mint: #e3f5ee;
+      --blue: #2563eb;
+      --orange: #f59e0b;
+      --red: #ef4444;
+      --ink: #17201d;
+      --muted: #66736d;
+      --line: #dce5e1;
+      --paper: #f7faf8;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #edf8f2 0%, #f8faf9 45%, #eef3f1 100%);
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 38px 0 56px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 34px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 54px;
+      line-height: 1.04;
+      color: var(--green-dark);
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      max-width: 660px;
+      font-size: 19px;
+      line-height: 1.7;
+      color: #35423d;
+    }
+
+    .tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      color: var(--green-dark);
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .item {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .78);
+      min-height: 108px;
+    }
+
+    .item b {
+      display: block;
+      font-size: 28px;
+      color: var(--green-dark);
+      margin-bottom: 6px;
+    }
+
+    .item span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    section { margin-top: 42px; }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: 28px;
+      color: var(--green-dark);
+    }
+
+    .personas {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .persona {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      padding: 18px;
+    }
+
+    .avatar {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin-bottom: 12px;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      background:
+        radial-gradient(circle at 50% 32%, #ffe1be 0 22%, transparent 23%),
+        radial-gradient(circle at 50% 66%, #ffe1be 0 28%, transparent 29%),
+        linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: inset 0 -16px 0 rgba(0, 0, 0, .08);
+    }
+
+    .persona:nth-child(2) .avatar {
+      background:
+        radial-gradient(circle at 50% 32%, #f3c89f 0 22%, transparent 23%),
+        radial-gradient(circle at 50% 66%, #f3c89f 0 28%, transparent 29%),
+        linear-gradient(135deg, #173f5f, var(--green));
+    }
+
+    .persona:nth-child(3) .avatar {
+      background:
+        radial-gradient(circle at 50% 32%, #f1c9aa 0 22%, transparent 23%),
+        radial-gradient(circle at 50% 66%, #f1c9aa 0 28%, transparent 29%),
+        linear-gradient(135deg, #7c3aed, var(--orange));
+    }
+
+    .persona h3 {
+      margin: 0 0 6px;
+      font-size: 21px;
+    }
+
+    .persona p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-size: 14px;
+    }
+
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .module {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      min-height: 132px;
+    }
+
+    .module h3 {
+      margin: 0 0 10px;
+      font-size: 19px;
+    }
+
+    .module p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .step {
+      position: relative;
+      min-height: 112px;
+      padding: 16px 14px;
+      border-radius: 8px;
+      background: var(--green-dark);
+      color: white;
+    }
+
+    .step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -8px;
+      width: 14px;
+      height: 14px;
+      border-top: 3px solid var(--orange);
+      border-right: 3px solid var(--orange);
+      transform: translateY(-50%) rotate(45deg);
+      z-index: 2;
+    }
+
+    .step small {
+      display: block;
+      color: #bfe9db;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .step b {
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .prototype-board {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
+    .phone {
+      width: 100%;
+      aspect-ratio: 9 / 19;
+      border-radius: 32px;
+      background: #101915;
+      padding: 11px;
+      box-shadow: 0 22px 48px rgba(23, 32, 29, .24);
+    }
+
+    .screen {
+      height: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      background: var(--paper);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-top {
+      padding: 22px 18px 12px;
+      color: white;
+      background: linear-gradient(135deg, var(--green-dark), var(--green));
+    }
+
+    .app-top .mini {
+      font-size: 12px;
+      opacity: .82;
+    }
+
+    .app-top h3 {
+      margin: 6px 0 0;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .app-body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .metric, .task, .resource, .alert, .form-card {
+      border-radius: 8px;
+      background: white;
+      border: 1px solid var(--line);
+      padding: 12px;
+    }
+
+    .metric b {
+      display: block;
+      font-size: 21px;
+      color: var(--green-dark);
+    }
+
+    .metric span, .task p, .resource p, .alert p {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .task h4, .resource h4, .alert h4 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .task p, .resource p, .alert p { margin: 0; }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      background: var(--mint);
+      color: var(--green-dark);
+    }
+
+    .pill.orange { background: #fff3d7; color: #9a5d00; }
+    .pill.red { background: #ffe3e3; color: #a22020; }
+    .pill.blue { background: #e4ecff; color: #1e4fb5; }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .service {
+      min-height: 62px;
+      border-radius: 8px;
+      background: white;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--green-dark);
+      padding: 8px;
+    }
+
+    .tabs {
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 8px 8px 10px;
+      background: white;
+      border-top: 1px solid var(--line);
+      gap: 4px;
+    }
+
+    .tab {
+      height: 34px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 10px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    .tab.active {
+      color: var(--green-dark);
+      background: var(--mint);
+    }
+
+    .eval {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .eval-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .eval-card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .eval-card ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    @media (max-width: 960px) {
+      header, .eval { grid-template-columns: 1fr; }
+      .personas, .modules { grid-template-columns: 1fr; }
+      .prototype-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .flow { grid-template-columns: 1fr; }
+      .step:not(:last-child)::after { display: none; }
+      h1 { font-size: 42px; }
+    }
+
+    @media (max-width: 560px) {
+      .page { width: min(100% - 28px, 1180px); padding-top: 24px; }
+      .summary, .prototype-board { grid-template-columns: 1fr; }
+      h1 { font-size: 34px; }
+      .lead { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div>
+        <div class="tagline"><span class="dot"></span>Lab4 Task1 / University Campus Assistant</div>
+        <h1>iCampus<br />大学校园辅助系统</h1>
+        <p class="lead">面向学生、教师和校园服务人员的统一校园入口，整合课程教学、校园通知、场地预约、报修反馈、活动报名和消息提醒。</p>
+      </div>
+      <div class="summary">
+        <div class="item"><b>3</b><span>核心角色：学生、任课教师、校园服务人员</span></div>
+        <div class="item"><b>6</b><span>功能模块：首页、教学、通知、服务、活动、个人消息</span></div>
+        <div class="item"><b>5</b><span>关键流程：今日安排、课程发布、场地预约、报修处理、活动报名</span></div>
+        <div class="item"><b>双端</b><span>移动端优先，PC 端支持教师和服务后台管理</span></div>
+      </div>
+    </header>
+
+    <section>
+      <h2>角色设定</h2>
+      <div class="personas">
+        <article class="persona">
+          <div class="avatar">林</div>
+          <h3>林悦，19 岁</h3>
+          <p>大二学生。需要快速查看今日课程、待办、校园通知、活动和服务入口，减少多个平台之间的切换。</p>
+        </article>
+        <article class="persona">
+          <div class="avatar">周</div>
+          <h3>周老师，42 岁</h3>
+          <p>任课教师。需要发布课程任务、上传资料、查看提交情况，并确保重要通知准确触达学生。</p>
+        </article>
+        <article class="persona">
+          <div class="avatar">赵</div>
+          <h3>赵敏，36 岁</h3>
+          <p>校园服务中心工作人员。负责场地预约、报修反馈和公告发布，希望服务申请规范且进度可追踪。</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>功能模块</h2>
+      <div class="modules">
+        <article class="module"><h3>校园首页</h3><p>聚合今日课程、待办、通知和服务入口，不同角色看到不同重点。</p></article>
+        <article class="module"><h3>课程与教学</h3><p>教师发布任务和资料，学生端自动生成待办、资料入口和截止提醒。</p></article>
+        <article class="module"><h3>校园通知</h3><p>集中展示教务、课程、活动、服务和紧急通知，支持未读与置顶。</p></article>
+        <article class="module"><h3>校园服务</h3><p>支持场地预约、设备报修、失物招领、校园咨询和进度查询。</p></article>
+        <article class="module"><h3>活动与资源</h3><p>展示讲座、社团、竞赛和志愿活动，支持报名、收藏和活动提醒。</p></article>
+        <article class="module"><h3>个人与消息</h3><p>管理身份、历史申请、收藏、系统消息和服务处理结果。</p></article>
+      </div>
+    </section>
+
+    <section>
+      <h2>关键流程</h2>
+      <div class="flow">
+        <div class="step"><small>学生</small><b>打开首页查看今日课程和待办</b></div>
+        <div class="step"><small>教师</small><b>发布课程任务、资料和截止时间</b></div>
+        <div class="step"><small>系统</small><b>生成学生提醒和通知状态</b></div>
+        <div class="step"><small>学生</small><b>预约场地或提交报修反馈</b></div>
+        <div class="step"><small>服务人员</small><b>审核处理并同步进度</b></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>关键原型界面</h2>
+      <div class="prototype-board">
+        <article class="phone">
+          <div class="screen">
+            <div class="app-top">
+              <div class="mini">Student Home</div>
+              <h3>校园首页</h3>
+            </div>
+            <div class="app-body">
+              <div class="metric-row">
+                <div class="metric"><b>3</b><span>今日课程</span></div>
+                <div class="metric"><b>5</b><span>待办事项</span></div>
+              </div>
+              <div class="task">
+                <h4>10:00 人机交互课程</h4>
+                <p>教学楼 A305，课前资料已更新。</p>
+                <div class="pill-row"><span class="pill blue">课程</span><span class="pill">资料</span></div>
+              </div>
+              <div class="task">
+                <h4>Lab4 UI 设计今晚截止</h4>
+                <p>系统根据教师发布任务自动生成提醒。</p>
+                <div class="pill-row"><span class="pill red">高优先级</span><span class="pill orange">截止提醒</span></div>
+              </div>
+              <div class="task">
+                <h4>校园通知</h4>
+                <p>图书馆研讨间预约规则已更新。</p>
+              </div>
+            </div>
+            <nav class="tabs">
+              <div class="tab active">首页</div><div class="tab">教学</div><div class="tab">服务</div><div class="tab">我的</div>
+            </nav>
+          </div>
+        </article>
+
+        <article class="phone">
+          <div class="screen">
+            <div class="app-top">
+              <div class="mini">Teacher Workspace</div>
+              <h3>教师工作台</h3>
+            </div>
+            <div class="app-body">
+              <div class="metric-row">
+                <div class="metric"><b>4</b><span>管理课程</span></div>
+                <div class="metric"><b>82%</b><span>任务提交率</span></div>
+              </div>
+              <div class="task">
+                <h4>发布课程任务</h4>
+                <p>选择班级、填写任务说明、上传附件、设置截止时间。</p>
+                <div class="pill-row"><span class="pill blue">一键发布</span></div>
+              </div>
+              <div class="task">
+                <h4>通知触达统计</h4>
+                <p>已读 67 人，未读 8 人，可再次提醒。</p>
+                <div class="pill-row"><span class="pill orange">8 未读</span></div>
+              </div>
+              <div class="task">
+                <h4>课程资料</h4>
+                <p>上传 PPT、实验说明、参考链接。</p>
+              </div>
+            </div>
+            <nav class="tabs">
+              <div class="tab">首页</div><div class="tab active">教学</div><div class="tab">服务</div><div class="tab">我的</div>
+            </nav>
+          </div>
+        </article>
+
+        <article class="phone">
+          <div class="screen">
+            <div class="app-top">
+              <div class="mini">Campus Service</div>
+              <h3>校园服务</h3>
+            </div>
+            <div class="app-body">
+              <div class="service-grid">
+                <div class="service">场地预约</div>
+                <div class="service">设备报修</div>
+                <div class="service">失物招领</div>
+                <div class="service">校园咨询</div>
+              </div>
+              <div class="resource">
+                <h4>图书馆研讨间 A-204</h4>
+                <p>今晚 19:00-21:00 可预约，适合 4-6 人讨论。</p>
+                <div class="pill-row"><span class="pill blue">可预约</span></div>
+              </div>
+              <div class="alert">
+                <h4>我的服务进度</h4>
+                <p>宿舍楼洗衣机报修：处理中，预计今日 18:00 前完成。</p>
+                <div class="pill-row"><span class="pill orange">处理中</span></div>
+              </div>
+            </div>
+            <nav class="tabs">
+              <div class="tab">首页</div><div class="tab">教学</div><div class="tab active">服务</div><div class="tab">我的</div>
+            </nav>
+          </div>
+        </article>
+
+        <article class="phone">
+          <div class="screen">
+            <div class="app-top">
+              <div class="mini">Service Desk</div>
+              <h3>服务工作台</h3>
+            </div>
+            <div class="app-body">
+              <div class="metric-row">
+                <div class="metric"><b>12</b><span>待处理工单</span></div>
+                <div class="metric"><b>5</b><span>待审核预约</span></div>
+              </div>
+              <div class="task">
+                <h4>新报修：宿舍 12 号楼</h4>
+                <p>公共洗衣机无法启动，已附现场图片。</p>
+                <div class="pill-row"><span class="pill red">新工单</span><span class="pill">分派</span></div>
+              </div>
+              <div class="task">
+                <h4>预约审核：研讨间 A-204</h4>
+                <p>申请人：林悦，4 人小组讨论，今晚 19:00。</p>
+                <div class="pill-row"><span class="pill blue">审核</span><span class="pill orange">待确认</span></div>
+              </div>
+              <div class="task">
+                <h4>公告发布</h4>
+                <p>面向全校发布图书馆开放时间调整。</p>
+              </div>
+            </div>
+            <nav class="tabs">
+              <div class="tab">首页</div><div class="tab">教学</div><div class="tab active">服务</div><div class="tab">我的</div>
+            </nav>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>评估</h2>
+      <div class="eval">
+        <article class="eval-card">
+          <h3>设计优点</h3>
+          <ul>
+            <li>角色覆盖学生、教师、服务人员，差异更清楚。</li>
+            <li>功能从学习扩展到教学、通知、服务、活动和消息。</li>
+            <li>教师发布任务到学生提醒、服务人员处理到用户反馈形成闭环。</li>
+            <li>移动端首页适合校园场景中的快速查看和操作。</li>
+          </ul>
+        </article>
+        <article class="eval-card">
+          <h3>后续改进</h3>
+          <ul>
+            <li>补充 PC 端后台，用于批量发布和工单统计。</li>
+            <li>增加权限体系，区分学生、教师、服务人员和管理员。</li>
+            <li>增加通知阅读率、提交率、处理时长等数据分析。</li>
+            <li>考虑与教务、图书馆、门禁和宿舍系统对接。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,40 @@
+@import './base.css';
+
+#app {
+  font-weight: normal;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.page-stack {
+  display: grid;
+  gap: 20px;
+}
+
+.section-title {
+  margin: 0 0 14px;
+  color: var(--text-strong);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.panel {
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  background: var(--panel-background);
+  padding: 20px;
+}
+
+.muted-text {
+  color: var(--text-muted);
+}
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
